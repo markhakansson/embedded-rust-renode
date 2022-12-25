@@ -1,0 +1,35 @@
+/*
+Renode Platform Creation Tutorial for the STM32 Nucleo-64 Board (F401RE).
+
+Here we go through how to set up the user LED, and the user button on the
+Nucleo-64 board (F401RE version). So we can use them in our simulation.
+*/
+
+// We base this board on the STM32F4 platform. Fortunately, there already
+// exists an implementation of the MCU that we can import.
+using "platforms/cpu/stm32f4.repl"
+
+// Here we describe the user button that exists on the Nucleo-64 board.
+// The button is physically connected to the pin PC13.
+//
+// We create a new entity `userButton` of the type `Input.Button`
+// (but you can name it whatever you want) connected to the GPIO bank C. 
+//
+// Using the interrupt connector `->` we connect this entity to the 13th
+// interrupt on GPIO bank C.
+// I.e. we are creating an input pin.
+userButton: Input.Button @ gpioPortC
+    -> gpioPortC@13
+
+// Similar to the previous entity, we create the entity `userLED` with another
+// type name, and connect it to GPIO bank A.
+userLED: Output.LED @ gpioPortA
+
+// Previously, we wanted the input button to start an interrupt event on PC13.
+// But here, we want the reverse. Events on the pin connected to the LED,
+// should "interrupt" the LED. I.e. we want to create an output pin.
+//
+// The GPIO bank A is described in the CPU import that we did at the beginning
+// of this file. We only want to update it, so we do the following:
+gpioPortA:
+    5 -> userLED@0

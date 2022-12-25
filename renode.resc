@@ -1,0 +1,2 @@
+mach create
+machine LoadPlatformDescription stm32-nucleo64.repl
