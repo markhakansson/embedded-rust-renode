@@ -30,6 +30,7 @@ userLED: Output.LED @ gpioPortA
 // should "interrupt" the LED. I.e. we want to create an output pin.
 //
 // The GPIO bank A is described in the CPU import that we did at the beginning
-// of this file. We only want to update it, so we do the following:
+// of this file. We only want to update that description for PC5, where the
+// user LED is connected to:
 gpioPortA:
     5 -> userLED@0
